@@ -3,13 +3,11 @@
 class Tape {
   constructor (str) {
       this.cells = str.split('');
-      console.log(this.cells);
       this.pointer = 0;
   }
 
   moveRight() {
     this.pointer += 1;
-    console.log("                    " + this);
     if (this.pointer > (this.cells).length) {
       this.cells.push('#');
     }

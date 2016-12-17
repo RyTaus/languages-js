@@ -52,27 +52,20 @@ class TuringMachine {
     this.acceptState = stateName;
   }
 
+  setReject(stateName) {
+    this.rejectState = stateName;
+  }
 
-  run(tape) {
-    console.log(this);
-    console.log("***************************");
-    console.log(tape);
-    var move = {
-      "R": tape.moveRight,
-      "L": tape.moveLeft
-    }
-    var state = this.startState;
-    console.log(tape.toString());
-    while (state != this.acceptState || state != this.rejectState) {
-      let trans = this.states[state].getEdge(tape.readCell());
-      console.log("______________");
-      console.log(state);
-      console.log(this.states[state]);
-      if (trans == null) {
-        // console.log(s);
-        console.log("NO EDGE");
-        break;
-      }
+  setStart(stateName) {
+    this.startState = stateName;
+  }
+
+  transition(state, tape) {
+    let trans = this.states[state].getEdge(tape.readCell());
+    let done = false;
+    if (trans == null) {
+      done = true;
+    } else {
 
       state = trans.nextState;
       tape.writeCell(trans.write);
@@ -81,7 +74,21 @@ class TuringMachine {
       } else {
         tape.moveLeft();
       }
-      console.log(tape.toString());
+    }
+    return {
+      "done": done,
+      "newState": state
+    };
+  }
+
+  run(tape) {
+    var state = this.startState;
+    while (state !== this.acceptState || state !== this.rejectState) {
+      let temp = this.transition(state, tape);
+      state = temp.newState;
+      if (temp.done) {
+        break;
+      }
     }
 
     return {

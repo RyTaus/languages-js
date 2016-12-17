@@ -18,26 +18,33 @@ var Edge = require('./turing-machine/turing_machine.js').Edge;
 
 // Edge = ns, w, d
 
-tm = new TuringMachine(['$', '0', '1', '#'], ['0', '1'], 'q1', 'qa', 'qr');
-tm.addState(new State('q1')
-                .addEdge('$', new Edge('q8', '$', 'R'))
-                .addEdge('0', new Edge('i', 'X', 'R'))
-                .addEdge('1', new Edge('a', 'X', 'R'))
-            )
+// tm = new TuringMachine(['$', '0', '1', '#'], ['0', '1'], 'q1', 'qa', 'qr');
+// tm.addState(new State('q1')
+//                 .addEdge('$', new Edge('q8', '$', 'R'))
+//                 .addEdge('0', new Edge('i', 'X', 'R'))
+//                 .addEdge('1', new Edge('a', 'X', 'R'))
+//             )
+//
+// tm.addState(new State('q2')
+//                 .addEdge('$', new Edge('q4', '$', 'R'))
+//                 .addEdge('0', new Edge('q2', '0', 'R'))
+//                 .addEdge('1', new Edge('q2', '1', 'R'))
+//             )
+// tm.addState(new State('q3')
+//                 .addEdge('$', new Edge('q5', '$', 'R'))
+//                 .addEdge('0', new Edge('q3', '0', 'R'))
+//                 .addEdge('1', new Edge('1', '1', 'R'))
+//             )
 
-tm.addState(new State('q2')
-                .addEdge('$', new Edge('q4', '$', 'R'))
-                .addEdge('0', new Edge('q2', '0', 'R'))
-                .addEdge('1', new Edge('q2', '1', 'R'))
-            )
-tm.addState(new State('q3')
-                .addEdge('$', new Edge('q5', '$', 'R'))
-                .addEdge('0', new Edge('q3', '0', 'R'))
-                .addEdge('1', new Edge('1', '1', 'R'))
-            )
+var tm = new TuringMachine(["$", "0", "1", "#"], ["0", "1"], "i", "a", "r");
+tm.addState(new State("i").addEdge(0, new Edge("i", "0", "R")).addEdge(1, new Edge("a", "1", "R")).addEdge("#", new Edge("r", "#", "L")) )
+
+tm.addState(new State("a") );
+tm.addState(new State("r") );
 
 
-var tape = new Tape('0000100');
+
+var tape = new Tape('00000100');
 
 var x = tm.run(tape);
 console.log(x.accept);
