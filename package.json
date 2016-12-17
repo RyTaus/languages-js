@@ -1,0 +1,15 @@
+{
+  "name": "languages-js",
+  "version": "0.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "test": "node test.js"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.1"
+  },
+  "dependencies": {
+
+  }
+}
