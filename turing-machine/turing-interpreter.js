@@ -38,11 +38,18 @@ var addEdge = function(args) {
 
 var run = function(args) {
   let result = Machine.run(new Tape(args[0]));
-  return (result.accept ? "Accept" : "Reject") + "\n" +
-          result.tape.toString();
+  console.log( (result.accept ? "    Accept" : "    Reject") + "\n    " +
+          result.tape.toString());
+  return ""
 }
 
-
+var help = function(args) {
+  if (args.length == 0) {
+    return functions;
+  } else {
+    return functions[args[0]].usage
+  }
+}
 
 
 
@@ -53,7 +60,8 @@ var functions = {
   "Reject": reject,
   "NewState": newState,
   "AddEdge": addEdge,
-  "Run": run
+  "Run": run,
+  "Help": help
 }
 
 var readLine = function(inputLine) {
@@ -78,19 +86,21 @@ var readFile = function(fileName) {
 }
 
 var REPL = function(line) {
-  console.log("  " + readLine(line));
+  console.log("    " + readLine(line));
 }
 
 var startREPL = function() {
+  let lineStart = "> ";
   // std in will change if i make stand alone repl outside of node
+  process.stdout.write(lineStart);
   var stdin = process.openStdin();
   stdin.addListener("data", function(d) {
     REPL(d.toString().trim());
+    process.stdout.write(lineStart);
   });
 }
 
 startREPL();
 
-// readLine("NewState Qo");
 
 // readFile("./hasOne.tm");
