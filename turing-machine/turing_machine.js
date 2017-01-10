@@ -28,6 +28,27 @@ class State {
   getEdge(read) {
     return this.edges[read];
   }
+
+  runAsState(state, tape) {
+      let trans = this.getEdge(tape.readCell());
+      let done = false;
+      if (trans == null) {
+        done = true;
+      } else {
+
+        state = trans.nextState;
+        tape.writeCell(trans.write);
+        if (trans.direction == "R") {
+          tape.moveRight();
+        } else {
+          tape.moveLeft();
+        }
+      }
+      return {
+        "done": done,
+        "newState": state
+      };
+  }
 }
 
 
@@ -40,7 +61,7 @@ class TuringMachine {
     this.startState = startState;
     this.acceptState = acceptState;
     this.rejectState = rejectState;
-
+    this.returnState = null;
 
   }
 
@@ -61,24 +82,11 @@ class TuringMachine {
   }
 
   transition(state, tape) {
-    let trans = this.states[state].getEdge(tape.readCell());
-    let done = false;
-    if (trans == null) {
-      done = true;
-    } else {
+    return this.states[state].runAsState(state, tape);
+  }
 
-      state = trans.nextState;
-      tape.writeCell(trans.write);
-      if (trans.direction == "R") {
-        tape.moveRight();
-      } else {
-        tape.moveLeft();
-      }
-    }
-    return {
-      "done": done,
-      "newState": state
-    };
+  setReturnState(stateName) {
+      this.returnState = null;
   }
 
   run(tape) {
@@ -95,6 +103,14 @@ class TuringMachine {
       "accept": state == this.acceptState,
       "tape": tape
     };
+  }
+
+  runAsState(tape) {
+      let temp = run(tape);
+      return {
+        "done": temp.accept,
+        "newState": returnState
+      };
   }
 
 
