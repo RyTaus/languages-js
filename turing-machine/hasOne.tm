@@ -1,3 +1,4 @@
+SetMachine addOne
 Accept a
 Reject r
 Start i

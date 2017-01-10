@@ -8,8 +8,17 @@ var Edge = require('./turing_machine.js').Edge;
 
 
 // Environment is a list of machines, States is a list of states.
+var Machines = {};
 var Machine = new TuringMachine();
 var Mode = "compile";
+
+var setMachine = function(args) {
+    if (Machines[args[0]] == null) {
+        Machines[args[0]] = new TuringMachine();
+    }
+    Machine = Machines[args[0]];
+    return "New Machine named: " + args[0];
+}
 
 var start = function(args) {
   Machine.setStart(args[0]);
@@ -29,6 +38,11 @@ var reject = function(args) {
 var newState = function(args) {
   Machine.addState(new State(args[0]));
   return "Added state: " + args[0];
+}
+
+var newMachineState = function(args) {
+    Machine.addState(Machines[args[0]]);
+    return "Added function: " + args[0];
 }
 
 var addEdge = function(args) {
@@ -55,13 +69,15 @@ var help = function(args) {
 
 // Used in the interperator to call a function
 var functions = {
+  "SetMachine" : setMachine,
   "Start" : start,
   "Accept": accept,
   "Reject": reject,
   "NewState": newState,
   "AddEdge": addEdge,
   "Run": run,
-  "Help": help
+  "Help": help,
+  "AddFunction": newMachineState
 }
 
 var readLine = function(inputLine) {
