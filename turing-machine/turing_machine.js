@@ -74,8 +74,8 @@ class TuringMachine {
 
     addMachineState(stateName, machine, nextStateSucc, nextStateFail) {
         this.states[stateName] = machine;
-        this.machineTransitionSucc = nextStateSucc;
-        this.machineTransitionFail = nextStateFail;
+        this.machineTransitionSucc[stateName] = nextStateSucc;
+        this.machineTransitionFail[stateName] = nextStateFail;
     }
 
     setAccept(stateName) {
@@ -111,10 +111,10 @@ class TuringMachine {
     }
 
     runAsState(machine, state, tape) {
-        let temp = run(tape);
+        let temp = this.run(tape);
         return {
-            "done": temp.accept,
-            "newState": (returnState ? machine.machineTransitionSucc[state] : machine.machineTransitionFail[state])
+            "done": false,
+            "newState": (temp.accept ? machine.machineTransitionSucc[state] : machine.machineTransitionFail[state])
         };
     }
 

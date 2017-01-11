@@ -40,8 +40,8 @@ var newState = function(args) {
   return "Added state: " + args[0];
 }
 
-var newMachineState = function(args) {
-    Machine.addState(Machines[args[0]]);
+var newMachineState = function(args) { // stateName, machineName, nextStateS, nextStateF
+    Machine.addMachineState(args[0], Machines[args[1]], args[2], args[3]);
     return "Added function: " + args[0];
 }
 
