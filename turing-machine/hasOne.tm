@@ -1,4 +1,4 @@
-SetMachine addOne
+SetMachine hasOne
 Accept a
 Reject r
 Start i

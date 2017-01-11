@@ -14,7 +14,7 @@ var Mode = "compile";
 
 var setMachine = function(args) {
     if (Machines[args[0]] == null) {
-        Machines[args[0]] = new TuringMachine();
+        Machines[args[0]] = new TuringMachine(args[0]);
     }
     Machine = Machines[args[0]];
     return "New Machine named: " + args[0];

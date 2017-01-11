@@ -29,7 +29,7 @@ class State {
         return this.edges[read];
     }
 
-    runAsState(state, tape) {
+    runAsState(machine, state, tape) {
         let trans = this.getEdge(tape.readCell());
         let done = false;
         if (trans == null) {
@@ -54,8 +54,11 @@ class State {
 
 
 class TuringMachine {
-    constructor(tapeAlphabet, inputAlphabet, startState, acceptState, rejectState) {
+    constructor(name, tapeAlphabet, inputAlphabet, startState, acceptState, rejectState) {
+        this.name = name;
         this.states = {};
+        this.machineTransitionSucc = {};
+        this.machineTransitionFail = {};
         this.tapeAlphabet = tapeAlphabet;
         this.inputAlphabet = inputAlphabet;
         this.startState = startState;
@@ -67,6 +70,12 @@ class TuringMachine {
 
     addState(state) {
         this.states[state.name] = state;
+    }
+
+    addMachineState(stateName, machine, nextStateSucc, nextStateFail) {
+        this.states[stateName] = machine;
+        this.machineTransitionSucc = nextStateSucc;
+        this.machineTransitionFail = nextStateFail;
     }
 
     setAccept(stateName) {
@@ -82,11 +91,7 @@ class TuringMachine {
     }
 
     transition(state, tape) {
-        return this.states[state].runAsState(state, tape);
-    }
-
-    setReturnState(stateName) {
-        this.returnState = null;
+        return this.states[state].runAsState(this, state, tape);
     }
 
     run(tape) {
@@ -105,11 +110,11 @@ class TuringMachine {
         };
     }
 
-    runAsState(tape) {
+    runAsState(machine, state, tape) {
         let temp = run(tape);
         return {
             "done": temp.accept,
-            "newState": returnState
+            "newState": (returnState ? machine.machineTransitionSucc[state] : machine.machineTransitionFail[state])
         };
     }
 
