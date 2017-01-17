@@ -9,7 +9,6 @@ class Edge {
     }
 }
 
-
 class State {
     constructor(name) {
         this.name = name;
@@ -35,7 +34,6 @@ class State {
         if (trans == null) {
             done = true;
         } else {
-
             state = trans.nextState;
             tape.writeCell(trans.write);
             if (trans.direction == "R") {
@@ -51,8 +49,6 @@ class State {
     }
 }
 
-
-
 class TuringMachine {
     constructor(name, tapeAlphabet, inputAlphabet, startState, acceptState, rejectState) {
         this.name = name;
@@ -65,7 +61,6 @@ class TuringMachine {
         this.acceptState = acceptState;
         this.rejectState = rejectState;
         this.returnState = null;
-
     }
 
     addState(state) {
@@ -117,8 +112,6 @@ class TuringMachine {
             "newState": (temp.accept ? machine.machineTransitionSucc[state] : machine.machineTransitionFail[state])
         };
     }
-
-
 
 }
 
