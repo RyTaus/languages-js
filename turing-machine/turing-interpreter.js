@@ -1,9 +1,9 @@
 "use strict"
 
 var Tape = require('./tape.js');
-var TuringMachine = require('./turing_machine.js').TuringMachine;
-var State = require('./turing_machine.js').State;
-var Edge = require('./turing_machine.js').Edge;
+var TuringMachine = require('./turing-machine.js').TuringMachine;
+var State = require('./turing-machine.js').State;
+var Edge = require('./turing-machine.js').Edge;
 
 
 
@@ -13,7 +13,7 @@ var Machine = new TuringMachine();
 var Mode = "compile";
 
 var setMachine = function(args) {
-    if (Machines[args[0]] == null) {
+    if (Machines[args[0]] === null) {
         Machines[args[0]] = new TuringMachine(args[0]);
     }
     Machine = Machines[args[0]];
@@ -58,7 +58,7 @@ var run = function(args) {
 }
 
 var help = function(args) {
-    if (args.length == 0) {
+    if (args.length === 0) {
         return functions;
     } else {
         return functions[args[0]].usage
@@ -108,7 +108,7 @@ var REPL = function(line) {
 var startREPL = function() {
     let lineStart = "> ";
     // std in will change if i make stand alone repl outside of node
-    process.stdout.write(lineStart);
+    process.stdout.write(lineStart); 
     var stdin = process.openStdin();
     stdin.addListener("data", function(d) {
         REPL(d.toString().trim());
@@ -116,7 +116,7 @@ var startREPL = function() {
     });
 }
 
-startREPL();
+// startREPL();
 
 
 // readFile("./hasOne.tm");
